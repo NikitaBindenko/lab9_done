@@ -1,0 +1,36 @@
+#define _CRT_SECURE_NO_WARNINGS
+#define ITERATION 5
+#define SIZE 40
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+#include"header.h"
+
+int main()
+{
+    for (int j = 0; j < ITERATION; j++)
+    {
+        int* matrix = (int*)malloc(SIZE * SIZE * sizeof(int));
+    
+        for (int i = 0; i < SIZE * SIZE; i++)    //инициализация массива
+        {
+            //scanf_s("%d", &matrix[i]);    //ручной ввод элемента
+            if (matrix != NULL) {
+                matrix[i] = i;
+            }
+            if (i % SIZE == 0)
+            {
+                printf("\n");
+            }
+            if (matrix != NULL) {
+                printf("%d\t", matrix[i]);
+            }
+        }
+
+        int result = determinant(matrix, SIZE);
+        printf("\n\nDeterminant is %d\n", result);
+
+        free(matrix);
+    }
+    return 0;
+}
