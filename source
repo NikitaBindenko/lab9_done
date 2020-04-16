@@ -1,0 +1,83 @@
+#include"header.h"
+#include<math.h>
+#include<stdlib.h>
+
+int determinant(int* matrix, unsigned int num)
+{
+    const unsigned int size = num;
+    if (size == 1)
+    {
+        int output = matrix[0];
+        return output;
+    }
+
+    if (size == 2)
+    {
+        int output = D2Arr(matrix);
+        return output;
+    }
+
+    double k = 0;
+    unsigned int i = 0, j = 0, m = 0, n = 0;
+    int* cofactor = (int*)malloc((size - 1) * (size - 1) * sizeof(int));
+    int* mltp = (int*)malloc(size * sizeof(int));
+    int* add = (int*)malloc(size * sizeof(int));
+
+    for (k = 0; k < size; k++)
+    {
+        if (mltp != NULL)
+        {
+            mltp[j] = matrix[i] * (int)pow(-1, (k + 2));
+        }
+        i = i + size;
+        j++;
+    }
+    i = 0;
+
+    for (m = 0; m < size; m++)
+    {
+        GetCofactor(matrix, cofactor, m, size);
+        if (mltp != NULL) 
+        {
+            if (add != NULL) {   
+                add[m] = mltp[m] * determinant(cofactor, size - 1);
+            }
+        }
+    }
+    m = 0;
+
+    int output = 0;
+    for (m = 0; m < size; m++)
+    {
+        if (add != NULL) {
+            output = output + add[m];
+        }
+    }
+
+    free(cofactor);
+    free(add);
+    free(mltp);
+
+    return output;
+}
+
+int D2Arr(int* arr)
+{
+    int determinant = arr[0] * arr[3] - arr[1] * arr[2];
+    return determinant;
+}
+void GetCofactor(int* matrix, int* cofactor, int line, int size)
+{
+    int i = 0;
+    for (int e = 0; e < size * size; e++)
+    {
+        if (e % size != 0)
+        {
+            if (e < line * size || e >(line + 1)* size)
+            {
+                cofactor[i] = matrix[e];
+                i++;
+            }
+        }
+    }
+}
